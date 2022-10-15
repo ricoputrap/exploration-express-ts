@@ -4,3 +4,8 @@ export interface Task {
   completed: boolean;
   created_at: Date
 }
+
+export type NewData = {
+  title?: string;
+  completed?: boolean;
+}

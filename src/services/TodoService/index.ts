@@ -1,6 +1,6 @@
 import { PostgrestResponse } from "@supabase/supabase-js";
 import supabase from "../../clients/supabase";
-import { Task } from "../../types/todoapp.types";
+import { NewData, Task } from "../../types/todoapp.types";
 
 class TodoService {
   public async getAllTasks(): Promise<Task[]> {
@@ -38,6 +38,32 @@ class TodoService {
       throw {
         code: 500,
         message: "Create new task error"
+      }
+    }
+  }
+
+  
+
+  public async editTask(id: number, newData: NewData): Promise<Task> {
+    try {
+      const response: PostgrestResponse<Task> = await supabase
+        .from("TASK")
+        .update(newData)
+        .eq('id', id)
+        .select()
+
+      if (response.error) {
+        throw new Error("Edit task error");
+      }
+
+      const editedTask: Task = response.data[0];
+      return editedTask;
+    }
+    catch (error: any) {
+      console.error("===== error:", error);
+      throw {
+        code: 500,
+        message: "Edit task error"
       }
     }
   }
