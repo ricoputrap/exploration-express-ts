@@ -1,0 +1,1 @@
+export const TODO_URL_V1 = "/todoapp/v1";
