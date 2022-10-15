@@ -67,6 +67,26 @@ class TodoService {
       }
     }
   }
+
+  public async deleteTask(id: number): Promise<PostgrestResponse<any>> {
+    try {
+      const response: PostgrestResponse<any> = await supabase
+        .from("TASK")
+        .delete()
+        .eq('id', id);
+
+      if (response.error) throw new Error("Delete task error");
+
+      return response;
+    }
+    catch (error: any) {
+      console.error("===== error:", error);
+      throw {
+        code: 500,
+        message: "Delete task error"
+      }
+    }
+  }
 }
 
 export default TodoService;

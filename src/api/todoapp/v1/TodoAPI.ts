@@ -46,7 +46,18 @@ const TodoAPI = (app: Express) => {
     catch (err: any) {
       return err;
     }
-  })
+  });
+
+  app.delete(`${URL}/:id`, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const taskID: any = req.params.id;
+      const response: PostgrestResponse<any> = await service.deleteTask(taskID);
+      return res.status(200).json(response);
+    }
+    catch (err: any) {
+      return err;
+    }
+  });
 }
 
 export default TodoAPI;
