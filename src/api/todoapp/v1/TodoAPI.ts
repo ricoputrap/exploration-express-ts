@@ -1,3 +1,4 @@
+import { PostgrestResponse } from "@supabase/supabase-js";
 import { Express, Request, Response, NextFunction } from "express"
 import { TODO_URL_V1 } from "../..";
 import TodoService from "../../../services/TodoService"
@@ -15,11 +16,20 @@ const TodoAPI = (app: Express) => {
       })
     }
     catch (err: any) {
-      return {
-
-      }
+      return err;
     }
-  })
+  });
+
+  app.post(URL, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const body = req.body;
+      const response: PostgrestResponse<any> = await service.createNewTask(body.title);
+      return res.status(200).json(response);
+    }
+    catch (err: any) {
+      return err;
+    }
+  });
 }
 
 export default TodoAPI;
